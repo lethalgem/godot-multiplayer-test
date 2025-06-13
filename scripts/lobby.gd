@@ -35,7 +35,7 @@ func _ready():
 	var rng = RandomNumberGenerator.new()
 	var my_random_number = rng.randi()
 	player_info["name"] = "Player" + str(my_random_number)
-	print("Created player: " + player_info)
+	print("Created player: " + str(player_info.values()))
 
 
 func join_game(address = ""):

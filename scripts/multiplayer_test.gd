@@ -2,8 +2,10 @@ class_name MutiplayerTest extends Node3D
 
 
 func _on_control_host_game():
-	pass # Replace with function body.
+	print("hosting game")
+	Lobby.create_game()
 
 
 func _on_control_join_game():
-	pass # Replace with function body.
+	print("joining game")
+	Lobby.join_game()
