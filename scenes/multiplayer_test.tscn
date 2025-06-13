@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4jvaojsbftui"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rdtuw"]
+
+[sub_resource type="Sky" id="Sky_3fc8k"]
+sky_material = SubResource("ProceduralSkyMaterial_rdtuw")
+
+[sub_resource type="Environment" id="Environment_sjw14"]
+background_mode = 2
+background_energy_multiplier = 1.55
+sky = SubResource("Sky_3fc8k")
+
+[node name="MultiplayerTest" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sjw14")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(11, 1, 16)
