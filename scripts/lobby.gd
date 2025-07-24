@@ -8,7 +8,7 @@ signal player_disconnected(peer_id)
 signal server_disconnected
 
 const PORT = 7000
-const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
+const DEFAULT_SERVER_IP = "108.21.225.208" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 
 # This will contain player info for every player,
@@ -23,9 +23,38 @@ var player_info = {"name": "Name"}
 
 var players_loaded = 0
 
-
+@onready var upnp = UPNP.new()
 
 func _ready():
+	print("multiplayer loading")
+	
+	# Forward ports
+	var discover_result = upnp.discover()
+	
+	if discover_result == UPNP.UPNP_RESULT_SUCCESS:
+		if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+			print("test")
+			
+			var map_result_udp = upnp.add_port_mapping(9999, 9999, "godot_udp", "UDP", 0)
+			var map_result_tcp = upnp.add_port_mapping(9999, 9999, "godot_udp", "UDP", 0)
+			
+			if not map_result_udp == UPNP.UPNP_RESULT_SUCCESS:
+				var upnp_result = upnp.add_port_mapping(9999, 9999, "", "UDP")
+				print("added port mapping for udp")
+				print(upnp_result)
+			else:
+				print("map worked for udp")
+			
+			if not map_result_tcp == UPNP.UPNP_RESULT_SUCCESS:
+				var upnp_result = upnp.add_port_mapping(9999, 9999, "", "TCP")
+				print("added port mapping for tcp")
+				print(upnp_result)
+			else:
+				print("map worked for tcp")
+	
+	var external_ip = upnp.query_external_address()
+	print(external_ip)
+	
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -37,6 +66,9 @@ func _ready():
 	player_info["name"] = "Player" + str(my_random_number)
 	print("Created player: " + str(player_info.values()))
 
+func delete_port_mapping():
+	upnp.delete_port_mapping(9999, "UDP")
+	upnp.delete_port_mapping(9999, "TCP")
 
 func join_game(address = ""):
 	print("running join game")
