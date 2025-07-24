@@ -7,7 +7,7 @@ signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 
-const PORT = 7000
+const PORT = 9999
 const DEFAULT_SERVER_IP = "108.21.225.208" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 
@@ -35,18 +35,18 @@ func _ready():
 		if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
 			print("test")
 			
-			var map_result_udp = upnp.add_port_mapping(9999, 9999, "godot_udp", "UDP", 0)
-			var map_result_tcp = upnp.add_port_mapping(9999, 9999, "godot_udp", "UDP", 0)
+			var map_result_udp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP", 0)
+			var map_result_tcp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP", 0)
 			
 			if not map_result_udp == UPNP.UPNP_RESULT_SUCCESS:
-				var upnp_result = upnp.add_port_mapping(9999, 9999, "", "UDP")
+				var upnp_result = upnp.add_port_mapping(PORT, PORT, "", "UDP")
 				print("added port mapping for udp")
 				print(upnp_result)
 			else:
 				print("map worked for udp")
 			
 			if not map_result_tcp == UPNP.UPNP_RESULT_SUCCESS:
-				var upnp_result = upnp.add_port_mapping(9999, 9999, "", "TCP")
+				var upnp_result = upnp.add_port_mapping(PORT, PORT, "", "TCP")
 				print("added port mapping for tcp")
 				print(upnp_result)
 			else:
@@ -67,8 +67,8 @@ func _ready():
 	print("Created player: " + str(player_info.values()))
 
 func delete_port_mapping():
-	upnp.delete_port_mapping(9999, "UDP")
-	upnp.delete_port_mapping(9999, "TCP")
+	upnp.delete_port_mapping(PORT, "UDP")
+	upnp.delete_port_mapping(PORT, "TCP")
 
 func join_game(address = ""):
 	print("running join game")
@@ -95,6 +95,8 @@ func create_game():
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
+	
+	print(multiplayer.is_server())
 
 
 func remove_multiplayer_peer():
