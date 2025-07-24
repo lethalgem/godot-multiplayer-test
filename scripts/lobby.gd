@@ -77,8 +77,10 @@ func join_game(address = ""):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(address, PORT)
 	if error:
+		print("error joining game: ", error)
 		return error
 	multiplayer.multiplayer_peer = peer
+	print("joined game?")
 
 
 func create_game():
@@ -86,8 +88,10 @@ func create_game():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(PORT, MAX_CONNECTIONS)
 	if error:
+		print("error hosting game: ", error)
 		return error
 	multiplayer.multiplayer_peer = peer
+	print("hosting game?")
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
