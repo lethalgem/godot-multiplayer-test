@@ -9,3 +9,11 @@ func _on_control_host_game():
 func _on_control_join_game():
 	print("joining game")
 	Lobby.join_game()
+
+
+func _on_control_host_function_called() -> void:
+	Lobby.host_function_only()
+
+
+func _on_control_client_function_called() -> void:
+	Lobby.client_function_only()

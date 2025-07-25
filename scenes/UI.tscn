@@ -46,5 +46,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Call Client Function" type="Label" parent="."]
+offset_left = 334.0
+offset_top = 502.0
+offset_right = 483.0
+offset_bottom = 525.0
+text = "Call Client Function"
+
+[node name="Client Function Button" type="Button" parent="Call Client Function"]
+layout_mode = 0
+offset_right = 155.0
+offset_bottom = 27.0
+
+[node name="Call Host Function" type="Label" parent="."]
+offset_left = 688.0
+offset_top = 491.0
+offset_right = 829.0
+offset_bottom = 514.0
+text = "Call Host Function"
+
+[node name="Host Function Button" type="Button" parent="Call Host Function"]
+layout_mode = 0
+offset_right = 146.0
+offset_bottom = 26.0
+
 [connection signal="pressed" from="HBoxContainer/Host Game/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/Join Game/Join Button" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="Call Client Function/Client Function Button" to="." method="_on_client_function_button_pressed"]
+[connection signal="pressed" from="Call Host Function/Host Function Button" to="." method="_on_host_function_button_pressed"]

@@ -25,5 +25,7 @@ size = Vector3(11, 1, 16)
 
 [node name="Control" parent="." instance=ExtResource("2_ntqd0")]
 
+[connection signal="client_function_called" from="Control" to="." method="_on_control_client_function_called"]
+[connection signal="host_function_called" from="Control" to="." method="_on_control_host_function_called"]
 [connection signal="host_game" from="Control" to="." method="_on_control_host_game"]
 [connection signal="join_game" from="Control" to="." method="_on_control_join_game"]

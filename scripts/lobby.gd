@@ -104,6 +104,15 @@ func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 
+@rpc("any_peer", "call_local")
+func host_function_only():
+	print("I'll be run on both the host and the client")
+	pass
+
+@rpc("authority", "call_remote")
+func client_function_only():
+	print("I'll only be run on the client")
+	pass
 
 # When the server decides to start the game from a UI scene,
 # do Lobby.load_game.rpc(filepath)
