@@ -105,12 +105,12 @@ func remove_multiplayer_peer():
 	players.clear()
 
 @rpc("any_peer", "call_local")
-func host_function_only():
+func host_function():
 	print("I'll be run on both the host and the client")
 	pass
 
 @rpc("authority", "call_remote")
-func client_function_only():
+func client_function():
 	print("I'll only be run on the client")
 	pass
 
