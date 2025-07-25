@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c37e0ycs5od6e"]
+[gd_scene load_steps=3 format=3 uid="uid://bjkswawjgek8q"]
 
 [ext_resource type="Texture2D" uid="uid://cxp4avdswedq2" path="res://assets/Card Sprites/Clubs 1.png" id="1_o5lpf"]
 [ext_resource type="Script" path="res://scripts/card_2d.gd" id="1_oa1ja"]
