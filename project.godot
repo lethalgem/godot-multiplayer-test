@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Lobby="*res://scripts/lobby.gd"
 
+[display]
+
+window/vsync/vsync_mode=0
+
 [input]
 
 left_click={

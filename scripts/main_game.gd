@@ -1,11 +1,16 @@
 class_name MainGame extends Node2D
 
 var card_being_dragged
+var screen_size
+
+func _ready():
+	screen_size = get_viewport_rect().size
 
 func _process(delta):
 	if card_being_dragged:
 		var mouse_pos = get_global_mouse_position()
-		card_being_dragged.position = mouse_pos
+		card_being_dragged.position = Vector2(clamp(mouse_pos.x,0,screen_size.x),
+			clamp(mouse_pos.y,0,screen_size.y))
 
 func _input(event):
 	if event.is_action_pressed('left_click'):
