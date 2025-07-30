@@ -6,6 +6,8 @@ class_name Card2D extends Sprite2D
 signal card_hover_active
 signal card_hover_inactive
 
+var hand_position
+
 func _ready():
 	#This will get card manager
 	get_parent().connect_card_signals(self)

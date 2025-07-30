@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dsofur3mkrdr6" path="res://scripts/card_2d.gd" id="1_oa1ja"]
 
 [node name="Card2D" type="Sprite2D" node_paths=PackedStringArray("area_2d", "collision_2d")]
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("1_o5lpf")
 script = ExtResource("1_oa1ja")
@@ -13,7 +14,7 @@ collision_2d = NodePath("Area2D/CollisionPolygon2D")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(-19, -37, -19, -35, -24, -31, -24, 31, -19, 34.9, -18.5, 38.5, 17, 39, 17, 35.5, 24, 32, 24, -31, 19, -35, 19, -37)
+polygon = PackedVector2Array(-19, -35, -24, -31, -24, 31, -19, 34.9, 17, 35.5, 24, 32, 24, -31, 19, -35)
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

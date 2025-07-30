@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnj0k17jx6yb3"]
+
+[ext_resource type="Script" uid="uid://bl2fonpitylxy" path="res://scripts/card_slot.gd" id="1_mxh2e"]
+[ext_resource type="Shader" uid="uid://dgsgb7b582agp" path="res://shaders/card_slot.gdshader" id="2_hrxt0"]
+[ext_resource type="Texture2D" uid="uid://cxp4avdswedq2" path="res://assets/Card Sprites/Clubs 1.png" id="3_dwl65"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dt6cf"]
+shader = ExtResource("2_hrxt0")
+shader_parameter/outline_px = 2.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_only = true
+
+[node name="CardSlot" type="Node2D"]
+script = ExtResource("1_mxh2e")
+
+[node name="CardSlotImage" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_dt6cf")
+scale = Vector2(2, 2)
+texture = ExtResource("3_dwl65")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+scale = Vector2(2, 2)
+polygon = PackedVector2Array(-19, -37, -24, -31, -24, 31, -19, 37, 18, 37, 24, 32, 24, -31, 19, -37)
