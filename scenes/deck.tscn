@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn7smt6obo00c"]
+
+[ext_resource type="Script" uid="uid://cis7ft082plq3" path="res://scripts/deck.gd" id="1_6rnap"]
+[ext_resource type="Texture2D" uid="uid://b5k4wlxgcsc5i" path="res://assets/Card Sprites/Card Back 3.png" id="1_sdhao"]
+
+[node name="Deck" type="Node2D"]
+script = ExtResource("1_6rnap")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_sdhao")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+scale = Vector2(2, 2)
+polygon = PackedVector2Array(-19, -35, -24, -31, -24, 31, -19, 34.9, 17.5, 35.5, 22.5, 32, 24, -31, 19, -35)

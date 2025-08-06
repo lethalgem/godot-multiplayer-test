@@ -1,12 +1,16 @@
 class_name CardManager extends Node2D
 
 @export var player_hand = PlayerHand
+@export var deck = Deck
+
 
 #TODO: Card hover needs to be inactive when holding a card. Issue | While holding a card, hover animation is active for other cards.
 #TODO: Alternative - Instead of card hover could draw instead, instead of scale, we move card up slightly and maybe scale too?
 
 const COLLISION_MASK_CARD = 1
 const COLLISION_MASK_CARD_SLOT = 2
+const COLLISION_MASK_DECK = 4
+const DEFAULT_CARD_MOVE_SPEED = 0.1
 
 var card_being_dragged
 var screen_size
@@ -15,6 +19,7 @@ var is_hovering_on_card
 func _ready():
 	screen_size = get_viewport_rect().size
 	player_hand = $"../PlayerHand"
+	deck = $"../Deck"
 
 func _process(delta) -> void:
 	if card_being_dragged:
@@ -29,6 +34,8 @@ func _input(event):
 		var card = raycast_check_for_card()
 		if card:
 			start_drag(card)
+		ray_at_cursor()
+	
 	if event.is_action_released('left_click'):
 		if card_being_dragged:
 			finish_drag()
@@ -46,7 +53,7 @@ func finish_drag():
 		card_being_dragged.get_node("Area2D/CollisionPolygon2D").disabled = true
 		card_slot_found.card_in_slot = true
 	else:
-		player_hand.add_card_to_hand(card_being_dragged)
+		player_hand.add_card_to_hand(card_being_dragged, DEFAULT_CARD_MOVE_SPEED)
 	card_being_dragged = null
 		
 func connect_card_signals(card):
@@ -75,6 +82,21 @@ func highlight_hovered_card(card, hovered):
 	else:
 		card.scale = Vector2(2, 2)
 		card.z_index = 1
+		
+func ray_at_cursor():
+	var space_state = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	
+	parameters.position = get_global_mouse_position()
+	parameters.collide_with_areas = true
+	var result = space_state.intersect_point(parameters)
+	
+	if result.size() > 0:
+		var result_collision_mask = result[0].collider.collision_mask
+		print(result_collision_mask)
+		if result_collision_mask == COLLISION_MASK_DECK:
+			deck.draw_card()
+	
 
 func raycast_check_for_card_slot():
 	var space_state = get_world_2d().direct_space_state

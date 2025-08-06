@@ -1,16 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3id4ey22vfar"]
+[gd_scene load_steps=7 format=3 uid="uid://c3id4ey22vfar"]
 
 [ext_resource type="Script" uid="uid://jwk0kpp32mq6" path="res://scripts/main_game.gd" id="1_72e8q"]
 [ext_resource type="PackedScene" uid="uid://bn8p8w43nki17" path="res://scenes/card_manager.tscn" id="2_0rdsr"]
 [ext_resource type="PackedScene" uid="uid://d0evid1ckhj1k" path="res://scenes/player_hand.tscn" id="3_d2op2"]
 [ext_resource type="PackedScene" uid="uid://cnj0k17jx6yb3" path="res://scenes/card_slot.tscn" id="5_ipu61"]
 [ext_resource type="PackedScene" uid="uid://bn7smt6obo00c" path="res://scenes/deck.tscn" id="5_ygxny"]
+[ext_resource type="Script" uid="uid://cis7ft082plq3" path="res://scripts/deck.gd" id="6_ygxny"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_72e8q")
-
-[node name="Deck" parent="." instance=ExtResource("5_ygxny")]
-position = Vector2(1750, 890)
 
 [node name="PlayerHand" parent="." instance=ExtResource("3_d2op2")]
 
@@ -18,6 +16,10 @@ position = Vector2(1750, 890)
 position = Vector2(907, 611)
 
 [node name="CardManager" parent="." instance=ExtResource("2_0rdsr")]
+
+[node name="Deck" parent="." instance=ExtResource("5_ygxny")]
+position = Vector2(1750, 890)
+script = ExtResource("6_ygxny")
 
 [node name="CardSlot3" parent="." instance=ExtResource("5_ipu61")]
 position = Vector2(1038, 611)
