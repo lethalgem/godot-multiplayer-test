@@ -30,7 +30,7 @@ texture = ExtResource("2_ktuci")
 scale = Vector2(2, 2)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(-19, -35, -24, -31, -24, 31, -19, 34.9, 17, 35.5, 24, 32, 24, -31, 19, -35)
+polygon = PackedVector2Array(-19, -35, -24, -31, -24, 31, -19, 34.9, 17, 35.5, 24, 32, 24, -7.87186, 24, -31, 19, -35)
 
 [node name="NameLabel" type="Label" parent="."]
 z_index = 1
@@ -40,16 +40,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -37.0
-offset_top = -64.0
+offset_top = -36.0
 offset_right = 18.0
-offset_bottom = -42.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "Snorlax"
 label_settings = SubResource("LabelSettings_o5lpf")
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CostLabel" type="Label" parent="."]
@@ -59,25 +58,42 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 22.0
-offset_top = -59.0
-offset_right = 28.0
-offset_bottom = -45.0
+offset_left = 21.0
+offset_top = -36.0
+offset_right = 31.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 text = "0"
 label_settings = SubResource("LabelSettings_ljo6k")
+horizontal_alignment = 1
 
-[node name="Stats" type="Label" parent="."]
+[node name="DefLabel" type="Label" parent="."]
 z_index = 1
-offset_left = -32.0
-offset_top = 17.0
-offset_right = 21.0
-offset_bottom = 59.0
-text = "HP: 1,000
-ATK: 1,000 
-DEF: 0"
+offset_left = 8.0
+offset_top = 18.0
+offset_right = 35.0
+offset_bottom = 32.0
+text = "DEF 0"
+label_settings = SubResource("LabelSettings_fm1aj")
+
+[node name="AtkLabel" type="Label" parent="."]
+z_index = 1
+offset_left = -34.0
+offset_top = 18.0
+offset_right = -7.0
+offset_bottom = 32.0
+text = "ATK 0"
+label_settings = SubResource("LabelSettings_fm1aj")
+
+[node name="HealthLabel" type="Label" parent="."]
+z_index = 1
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 30.0
+offset_bottom = 19.0
+text = "HP 0"
 label_settings = SubResource("LabelSettings_fm1aj")
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

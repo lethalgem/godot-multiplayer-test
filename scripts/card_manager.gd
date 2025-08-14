@@ -59,14 +59,11 @@ func connect_card_signals(card):
 	card.connect("card_hover_inactive", on_card_hover_inactive)
 	
 func on_card_hover_active(card):
-	print("hover active!")
 	if !is_hovering_on_card:
-		print("hover_active print statement worked! Calls hilighcard!")
 		is_hovering_on_card = true
 		highlight_hovered_card(card, true)
 
 func on_card_hover_inactive(card):
-	print("inactive signal")
 	if !card_being_dragged:
 		highlight_hovered_card(card, false)
 		var new_card_hovered = raycast_check_for_card()
@@ -76,7 +73,6 @@ func on_card_hover_inactive(card):
 			is_hovering_on_card = false
 
 func highlight_hovered_card(card, hovered):
-	print(card.scale)
 	if hovered:
 		card.scale = Vector2(1.1, 1.1)
 #		Changes the layer in which the card is renderd infront or behind other cards
