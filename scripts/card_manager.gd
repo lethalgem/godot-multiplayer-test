@@ -4,8 +4,6 @@ class_name CardManager extends Node2D
 @export var deck = Deck
 
 
-#TODO: Card hover needs to be inactive when holding a card. Issue | While holding a card, hover animation is active for other cards.
-#TODO: Alternative - Instead of card hover could draw instead, instead of scale, we move card up slightly and maybe scale too?
 
 const COLLISION_MASK_CARD = 1
 const COLLISION_MASK_CARD_SLOT = 2
@@ -19,7 +17,7 @@ var is_hovering_on_card
 func _ready():
 	screen_size = get_viewport_rect().size
 	player_hand = $"../PlayerHand"
-	deck = $"../Deck"
+	deck = $"../PlayerCardSlots/Deck"
 
 func _process(delta) -> void:
 	if card_being_dragged:
@@ -42,10 +40,10 @@ func _input(event):
 		
 func start_drag(card):
 	card_being_dragged = card
-	card.scale = Vector2(2,2)
+	card.scale = Vector2(1.5,1.5)
 
 func finish_drag():
-	card_being_dragged.scale = Vector2(2.1,2.1)
+	card_being_dragged.scale = Vector2(1.1,1.1)
 	var card_slot_found = raycast_check_for_card_slot()
 	if card_slot_found and not card_slot_found.card_in_slot:
 		player_hand.remove_card_from_hand(card_being_dragged)
@@ -61,11 +59,14 @@ func connect_card_signals(card):
 	card.connect("card_hover_inactive", on_card_hover_inactive)
 	
 func on_card_hover_active(card):
+	print("hover active!")
 	if !is_hovering_on_card:
+		print("hover_active print statement worked! Calls hilighcard!")
 		is_hovering_on_card = true
 		highlight_hovered_card(card, true)
 
 func on_card_hover_inactive(card):
+	print("inactive signal")
 	if !card_being_dragged:
 		highlight_hovered_card(card, false)
 		var new_card_hovered = raycast_check_for_card()
@@ -75,12 +76,13 @@ func on_card_hover_inactive(card):
 			is_hovering_on_card = false
 
 func highlight_hovered_card(card, hovered):
+	print(card.scale)
 	if hovered:
-		card.scale = Vector2(2.1, 2.1)
+		card.scale = Vector2(1.1, 1.1)
 #		Changes the layer in which the card is renderd infront or behind other cards
 		card.z_index = 2
 	else:
-		card.scale = Vector2(2, 2)
+		card.scale = Vector2(1, 1)
 		card.z_index = 1
 		
 func ray_at_cursor():
@@ -93,7 +95,6 @@ func ray_at_cursor():
 	
 	if result.size() > 0:
 		var result_collision_mask = result[0].collider.collision_mask
-		print(result_collision_mask)
 		if result_collision_mask == COLLISION_MASK_DECK:
 			deck.draw_card()
 	

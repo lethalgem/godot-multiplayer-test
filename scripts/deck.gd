@@ -11,9 +11,8 @@ func draw_card():
 	if player_deck.size() == 0:
 		$Area2D/CollisionPolygon2D.disabled = true
 		$Sprite2D.visible = false
-	print("Draw Card")
-	var card_scene = preload("res://scenes/card_2d.tscn")
+	var card_scene = preload("res://scenes/card.tscn")
 	var new_card = card_scene.instantiate()
-	$"../CardManager".add_child(new_card)
+	$"../../CardManager".add_child(new_card)
 	new_card.name = "Card"
-	$"../PlayerHand".add_card_to_hand(new_card, CARD_DRAW_SPEED)
+	$"../../PlayerHand".add_card_to_hand(new_card, CARD_DRAW_SPEED)
