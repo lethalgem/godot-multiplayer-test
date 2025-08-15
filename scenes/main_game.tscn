@@ -5,82 +5,109 @@
 [ext_resource type="PackedScene" uid="uid://d0evid1ckhj1k" path="res://scenes/player_hand.tscn" id="3_d2op2"]
 [ext_resource type="PackedScene" uid="uid://cnj0k17jx6yb3" path="res://scenes/card_slot.tscn" id="5_ipu61"]
 [ext_resource type="PackedScene" uid="uid://bn7smt6obo00c" path="res://scenes/deck.tscn" id="5_ygxny"]
-[ext_resource type="PackedScene" uid="uid://onyjklcp86wg" path="res://scenes/enemy_deck.tscn" id="6_ygxny"]
+[ext_resource type="Script" uid="uid://bl2fonpitylxy" path="res://scripts/card_slot.gd" id="7_70vka"]
 [ext_resource type="PackedScene" uid="uid://b1rftklk1rkh7" path="res://scenes/enemy_card_slot.tscn" id="7_wi4c7"]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_72e8q")
 
+[node name="EnemyHand" parent="." instance=ExtResource("3_d2op2")]
+y_hand_ratio = 0.3
+
 [node name="PlayerHand" parent="." instance=ExtResource("3_d2op2")]
 
-[node name="CardManager" parent="." instance=ExtResource("2_0rdsr")]
+[node name="CardManager" parent="." node_paths=PackedStringArray("player_hand", "players_deck", "enemy_hand", "enemy_deck") instance=ExtResource("2_0rdsr")]
+player_hand = NodePath("../PlayerHand")
+players_deck = NodePath("../PlayerCardSlots/Deck")
+enemy_hand = NodePath("../EnemyHand")
+enemy_deck = NodePath("../EnemyCardSlots/EnemyDeck")
 
 [node name="PlayerCardSlots" type="Node2D" parent="."]
 
 [node name="Deck" parent="PlayerCardSlots" instance=ExtResource("5_ygxny")]
 position = Vector2(1790, 890)
+belongs_to_player = true
 
 [node name="CardSlot3" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(1236, 635)
+belongs_to_player = true
 
 [node name="CardSlot5" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(1110, 635)
+belongs_to_player = true
 
 [node name="CardSlot2" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(851, 638)
+belongs_to_player = true
 
 [node name="CardSlot6" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(719, 640)
+belongs_to_player = true
 
 [node name="CardSlot" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(980, 637)
+belongs_to_player = true
 
 [node name="CardSlot4" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(1236, 810)
+belongs_to_player = true
 
 [node name="CardSlot7" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(1110, 810)
+belongs_to_player = true
 
 [node name="CardSlot8" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(851, 810)
+belongs_to_player = true
 
 [node name="CardSlot9" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(719, 810)
+belongs_to_player = true
 
 [node name="CardSlot10" parent="PlayerCardSlots" instance=ExtResource("5_ipu61")]
 position = Vector2(980, 810)
+belongs_to_player = true
 
 [node name="EnemyCardSlots" type="Node2D" parent="."]
 
-[node name="EnemyDeck" parent="EnemyCardSlots" instance=ExtResource("6_ygxny")]
-position = Vector2(190, 190)
+[node name="EnemyDeck" parent="EnemyCardSlots" instance=ExtResource("5_ygxny")]
 
 [node name="EmemyCardSlot" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(719, 267)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot2" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(851, 265)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot3" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(980, 264)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot4" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(1110, 262)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot5" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(1236, 262)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot6" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(719, 437)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot7" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(851, 437)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot8" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(980, 437)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot9" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(1110, 437)
+script = ExtResource("7_70vka")
 
 [node name="EmemyCardSlot10" parent="EnemyCardSlots" instance=ExtResource("7_wi4c7")]
 position = Vector2(1236, 437)
+script = ExtResource("7_70vka")

@@ -1,10 +1,8 @@
-class_name Deck extends Node2D
-
-@export var belongs_to_player := false
+class_name EnemyDeck extends Node2D
 
 const CARD_DRAW_SPEED = 0.3
 
-var player_deck = ["Harpie", "Golem","Goat","Knight","ThiccBoi"]
+var enemy_deck = ["Harpie", "Golem","Goat","Knight","ThiccBoi"]
 var card_db_ref
 var draw_card_this_turn = false
 
@@ -12,16 +10,15 @@ func _ready():
 	card_db_ref = preload("res://scripts/Cards_db.gd")
 
 func draw_card():
-	print("cards remaining: " + str(player_deck.size()))
-	player_deck.shuffle()
+	enemy_deck.shuffle()
 	
 	#if draw_card_this_turn: - ENABLE to set 1 card draw per turn
 		#return
 	draw_card_this_turn = true
-	var card_drawn = player_deck[0]
-	player_deck.erase(card_drawn)
+	var card_drawn = enemy_deck[0]
+	enemy_deck.erase(card_drawn)
 	
-	if player_deck.size() == 0:
+	if enemy_deck.size() == 0:
 		$Area2D/CollisionPolygon2D.disabled = true
 		$Sprite2D.visible = false
 	var card_scene = preload("res://scenes/card.tscn")

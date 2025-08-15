@@ -1,21 +1,15 @@
-class_name PlayerHand extends Node2D
+class_name Hand extends Node2D
 
 const CARD_WIDTH = 80
 const HAND_Y_POSITION = 890
 const DEFAULT_CARD_MOVE_SPEED = 0.1
 
-var y_hand_ratio := 0.9 #90% down th screen
+@export var y_hand_ratio := 0.9 # 90% down the screen
 var player_hand = []
 var center_screen_x
 
 func _ready() -> void:
 	center_screen_x = get_viewport().size.x/2
-	#var card_scene = preload("res://scenes/card_2d.tscn")
-	#for i in range(HAND_COUNT):
-		#var new_card = card_scene.instantiate()
-		#$"../CardManager".add_child(new_card)
-		#new_card.name = "Card"
-		#add_card_to_hand(new_card)
 
 func add_card_to_hand(card, speed):
 	if card not in player_hand:
@@ -26,6 +20,7 @@ func add_card_to_hand(card, speed):
 
 func update_hand_positions(speed):
 	var y_pos = get_viewport().size.y * y_hand_ratio
+	print(y_hand_ratio)
 	for i in range(player_hand.size()):
 #		Get new card position based on index passed in the hand
 		var new_position = Vector2(calculate_card_position(i), y_pos)

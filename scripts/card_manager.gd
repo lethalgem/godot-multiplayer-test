@@ -1,9 +1,10 @@
 class_name CardManager extends Node2D
 
-@export var player_hand = PlayerHand
-@export var deck = Deck
+@export var player_hand: Hand
+@export var players_deck: Deck
 
-
+@export var enemy_hand: Hand
+@export var enemy_deck: Deck
 
 const COLLISION_MASK_CARD = 1
 const COLLISION_MASK_CARD_SLOT = 2
@@ -16,8 +17,6 @@ var is_hovering_on_card
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	player_hand = $"../PlayerHand"
-	deck = $"../PlayerCardSlots/Deck"
 
 func _process(delta) -> void:
 	if card_being_dragged:
@@ -92,7 +91,13 @@ func ray_at_cursor():
 	if result.size() > 0:
 		var result_collision_mask = result[0].collider.collision_mask
 		if result_collision_mask == COLLISION_MASK_DECK:
-			deck.draw_card()
+			var deck: Deck = result[0].collider.get_parent()
+			if deck.belongs_to_player:
+				print("drawing from player's deck")
+				players_deck.draw_card()
+			else:
+				print("drawing from enemy's deck")
+				enemy_deck.draw_card()
 	
 
 func raycast_check_for_card_slot():
