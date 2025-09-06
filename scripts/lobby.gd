@@ -8,12 +8,13 @@ signal player_disconnected(peer_id)
 signal server_disconnected
 
 const PORT = 9999
-const DEFAULT_SERVER_IP = "108.21.225.208" # IPv4 localhost
+const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 const MAX_CONNECTIONS = 20
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
 var players = {}
+var game_scene_path = "res://scenes/main_game.tscn"
 
 # This is the local player info. This should be modified locally
 # before the connection is made. It will be passed to every other peer.
@@ -26,14 +27,14 @@ var players_loaded = 0
 @onready var upnp = UPNP.new()
 
 func _ready():
-	print("multiplayer loading")
+	print(multiplayer.get_unique_id())
+	print("Initiating multiplayer loading")
 	
 	# Forward ports
 	var discover_result = upnp.discover()
 	
 	if discover_result == UPNP.UPNP_RESULT_SUCCESS:
 		if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
-			print("test")
 			
 			var map_result_udp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP", 0)
 			var map_result_tcp = upnp.add_port_mapping(PORT, PORT, "godot_udp", "UDP", 0)
@@ -81,6 +82,8 @@ func join_game(address = ""):
 		return error
 	multiplayer.multiplayer_peer = peer
 	print("joined game?")
+	print(peer)
+	load_game(game_scene_path)
 
 
 func create_game():
@@ -92,6 +95,7 @@ func create_game():
 		return error
 	multiplayer.multiplayer_peer = peer
 	print("hosting game?")
+	print(peer)
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
@@ -104,13 +108,19 @@ func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 
-#@rpc("any_peer", "call_local")
-@rpc
+@rpc("any_peer", "call_local")
 func host_function():
+	if multiplayer.is_server():
+		var peer_id = multiplayer.get_remote_sender_id()
+		print("hello?")
+		rpc('the_thing',peer_id)
 	print("I'll be run on both the host and the client")
+	
+@rpc('authority','reliable')
+func the_thing(peer_id:int):
+	print('the thing')
 
-#@rpc("authority", "call_remote")
-@rpc
+@rpc("authority", "call_remote")
 func client_function():
 	print("I'll only be run on the client")
 
@@ -138,7 +148,7 @@ func player_loaded():
 func _on_player_connected(id):
 	print("running on player connected")
 	_register_player.rpc_id(id, player_info)
-
+	print(_register_player)
 
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info):

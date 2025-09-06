@@ -10,7 +10,6 @@ func _on_control_join_game():
 	print("joining game")
 	Lobby.join_game()
 
-
 func _on_control_host_function_called() -> void:
 	Lobby.host_function.rpc()
 
