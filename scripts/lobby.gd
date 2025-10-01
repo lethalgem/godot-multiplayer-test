@@ -27,8 +27,7 @@ var players_loaded = 0
 @onready var upnp = UPNP.new()
 
 func _ready():
-	print(multiplayer.get_unique_id())
-	print("Initiating multiplayer loading")
+	print("Initiating lobby loading")
 	
 	# Forward ports
 	var discover_result = upnp.discover()
@@ -82,9 +81,6 @@ func join_game(address = ""):
 		return error
 	multiplayer.multiplayer_peer = peer
 	print("joined game?")
-	print(peer)
-	load_game(game_scene_path)
-
 
 func create_game():
 	print("running create game")
@@ -102,38 +98,26 @@ func create_game():
 	
 	print(multiplayer.is_server())
 
+func start_game():
+	if multiplayer.is_server():
+		print("Starting Game")
+		rpc("load_game",game_scene_path)
 
 func remove_multiplayer_peer():
 	print("running remove multiplayer peer")
 	multiplayer.multiplayer_peer = null
 	players.clear()
 
-@rpc("any_peer", "call_local")
-func host_function():
-	if multiplayer.is_server():
-		var peer_id = multiplayer.get_remote_sender_id()
-		print("hello?")
-		rpc('the_thing',peer_id)
-	print("I'll be run on both the host and the client")
-	
-@rpc('authority','reliable')
-func the_thing(peer_id:int):
-	print('the thing')
-
-@rpc("authority", "call_remote")
-func client_function():
-	print("I'll only be run on the client")
-
 # When the server decides to start the game from a UI scene,
 # do Lobby.load_game.rpc(filepath)
 @rpc("call_local", "reliable")
-func load_game(game_scene_path):
+func load_game(path):
 	print("running load game")
-	get_tree().change_scene_to_file(game_scene_path)
-
+	get_tree().change_scene_to_file(path)
+	rpc_id(1,"player_loaded")
 
 # Every peer will call this when they have loaded the game scene.
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer", "reliable")
 func player_loaded():
 	print("running player_loaded")
 	if multiplayer.is_server():
@@ -141,7 +125,6 @@ func player_loaded():
 		if players_loaded == players.size():
 			$/root/Game.start_game()
 			players_loaded = 0
-
 
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
@@ -157,12 +140,17 @@ func _register_player(new_player_info):
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
 
+#@rpc("any_peer", "call_local",'reliable')
+#func client_function():
+	#print(multiplayer.get_remote_sender_id())
+	#print("I'll only be run on the client")
+	#if multiplayer.is_server():
+		#print("ian es server")
 
 func _on_player_disconnected(id):
 	print("running on player disconnected")
 	players.erase(id)
 	player_disconnected.emit(id)
-
 
 func _on_connected_ok():
 	print("running on connected ok")
@@ -170,11 +158,9 @@ func _on_connected_ok():
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 
-
 func _on_connected_fail():
 	print("running on connected fail")
 	multiplayer.multiplayer_peer = null
-
 
 func _on_server_disconnected():
 	print("running on server disconnected")

@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://onyjklcp86wg"]
-
-[ext_resource type="Texture2D" uid="uid://b5k4wlxgcsc5i" path="res://assets/Card Sprites/Card Back 3.png" id="2_4jeck"]
-
-[node name="EnemyDeck" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("2_4jeck")

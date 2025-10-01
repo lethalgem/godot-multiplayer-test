@@ -46,6 +46,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="StartGame" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Start The Mfn Game!"
+
+[node name="Button" type="Button" parent="HBoxContainer/StartGame"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.696
+anchor_right = 0.5
+anchor_bottom = 0.696
+offset_left = -79.0
+offset_top = -11.008
+offset_right = 85.0
+offset_bottom = 10.992
+
 [node name="Call Client Function" type="Label" parent="."]
 offset_left = 334.0
 offset_top = 502.0
@@ -72,5 +87,6 @@ offset_bottom = 26.0
 
 [connection signal="pressed" from="HBoxContainer/Host Game/Host Button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/Join Game/Join Button" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/StartGame/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Call Client Function/Client Function Button" to="." method="_on_client_function_button_pressed"]
 [connection signal="pressed" from="Call Host Function/Host Function Button" to="." method="_on_host_function_button_pressed"]

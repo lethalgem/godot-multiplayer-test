@@ -41,7 +41,6 @@ func calculate_card_position(index):
 	var x_offset = center_screen_x - total_width/2 +index*card_space
 	return x_offset
 
-
 func animate_card_to_position(card, new_position, speed):
 	var tween = get_tree().create_tween()
 	tween.tween_property(card,"position", new_position, speed)
