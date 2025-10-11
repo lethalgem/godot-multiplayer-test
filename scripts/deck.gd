@@ -11,7 +11,6 @@ func _ready():
 	card_db_ref = preload("res://scripts/Cards_db.gd")
 
 func draw_card() -> Card:
-	print("This player called me:", multiplayer.get_remote_sender_id())
 	card_dict.shuffle()
 	
 	#if draw_card_this_turn: - ENABLE to set 1 card draw per turn
