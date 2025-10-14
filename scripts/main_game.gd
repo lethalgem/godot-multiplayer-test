@@ -8,7 +8,7 @@ var card_manager: CardManager
 var peer_id
 
 func _ready():
-	peer_id = multiplayer.get_unique_id()
+	peer_id = multiplayer.get_remote_sender_id()
 	player_deck = $PlayerDeck
 	enemy_deck = $EnemyDeck
 	player_hand =$PlayerHand
@@ -16,28 +16,15 @@ func _ready():
 	card_manager = $CardManager
 	#add_player(peer_id
 
-@rpc("any_peer")
-func request_card():
-	if not multiplayer.is_server():
-		return
-	peer_id = multiplayer.get_remote_sender_id()
-	if enemy_deck.card_dict.size() > 0:
-		var card = enemy_deck.draw_card()
-		print("deck has cards")
-		give_card.rpc_id(peer_id,enemy_hand, card)
-	else:
-		print('out of cards')
-		empty_deck.rpc(enemy_deck)
-
-@rpc("authority",'call_local')
-func empty_deck(deck:Deck):
+@rpc("any_peer","call_local")
+func empty_deck(deck: String):
 	if not deck:
 		return
-	var collision = deck.get_node('Area2D/CollisionPolygon2D')
+	var empty_deck = get_node_or_null(deck)
+	var collision = empty_deck.get_node('Area2D/CollisionPolygon2D')
 	collision.disabled = true
-	var sprite = deck.get_node('Sprite2D')
+	var sprite = empty_deck.get_node('Sprite2D')
 	sprite.visible = false
-
 
 @rpc("authority")
 func give_card(hand:PlayerHand, card:Card):
@@ -47,6 +34,17 @@ func give_card(hand:PlayerHand, card:Card):
 	hand.add_card_to_hand(card, 0.3)
 	print("give card", card, peer_id)
 
+@rpc("any_peer")
+func request_card():
+	if not multiplayer.is_server():
+		return
+	if enemy_deck.card_dict.size() > 0:
+		var card = enemy_deck.draw_card()
+		give_card.rpc_id(peer_id,enemy_hand, card)
+		if enemy_deck.card_dict.size() == 0:
+			var deck = enemy_deck.name
+			print("empty rpc activate!") #Works
+			empty_deck.rpc_id(peer_id,deck)
 
 func _on_card_manager_draw_card():
 	var card: Card
@@ -57,7 +55,10 @@ func _on_card_manager_draw_card():
 			var card_name = card.get_node("NameLabel").text
 			print(card_name)
 			if player_deck.card_dict.size() == 0:
-				empty_deck.rpc(player_deck)
+				var deck = player_deck.name
+				print("empty rpc activate!") #Works
+				rpc("empty_deck",deck) #to everyone
+				#empty_deck(player_deck) #local
 			give_card.rpc_id(peer_id,player_hand, card_name)
 	else:
 			request_card.rpc()
